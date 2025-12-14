@@ -1,0 +1,15 @@
+# appsettings.Development.json - Example
+# ΜΠΙΣΤΕ ΤΑ ΔΙΚΑ ΣΑΣ CREDENTIALS ΕΔΩ!
+
+{
+  "ConnectionStrings": {
+    "DefaultConnection": "Host=localhost;Port=5432;Database=openbets_db;Username=YOUR_POSTGRES_USERNAME;Password=YOUR_POSTGRES_PASSWORD"
+  },
+  "Logging": {
+    "LogLevel": {
+      "Default": "Information",
+      "Microsoft.AspNetCore": "Warning",
+      "Microsoft.EntityFrameworkCore": "Information"
+    }
+  }
+}
