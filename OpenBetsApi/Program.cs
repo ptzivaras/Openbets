@@ -1,11 +1,16 @@
 using Microsoft.EntityFrameworkCore;
 using OpenBetsApi.Data;
+using OpenBetsApi.Services;
 
 var builder = WebApplication.CreateBuilder(args);
 
 // Add PostgreSQL Database
 builder.Services.AddDbContext<ApplicationDbContext>(options =>
     options.UseNpgsql(builder.Configuration.GetConnectionString("DefaultConnection")));
+
+// Add HttpClient for OPAP API
+builder.Services.AddHttpClient<OpapApiService>();
+builder.Services.AddScoped<OpapApiService>();
 
 // Add Controllers
 builder.Services.AddControllers();

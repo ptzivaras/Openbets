@@ -150,3 +150,11 @@ dotnet ef database update
 
 MIT
 
+## Run Commands
+1.
+-cd OpenBetsApi
+-dotnet run
+
+2.
+-cd openbets-client
+-npm run dev
