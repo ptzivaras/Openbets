@@ -15,19 +15,25 @@ function Header() {
               to="/" 
               className={location.pathname === '/' ? 'active' : ''}
             >
-              Home
+              Αρχική
             </Link>
             <Link 
               to="/latest" 
               className={location.pathname === '/latest' ? 'active' : ''}
             >
-              Latest Draw
+              Τελευταία Κλήρωση
             </Link>
             <Link 
               to="/history" 
               className={location.pathname === '/history' ? 'active' : ''}
             >
-              History
+              Ιστορικό
+            </Link>
+            <Link 
+              to="/statistics" 
+              className={location.pathname === '/statistics' ? 'active' : ''}
+            >
+              Στατιστικά
             </Link>
           </nav>
         </div>

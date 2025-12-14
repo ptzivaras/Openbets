@@ -3,6 +3,7 @@ import Header from './components/Header';
 import Home from './pages/Home';
 import LatestDraw from './pages/LatestDraw';
 import History from './pages/History';
+import Statistics from './pages/Statistics';
 
 function App() {
   return (
@@ -14,6 +15,7 @@ function App() {
             <Route path="/" element={<Home />} />
             <Route path="/latest" element={<LatestDraw />} />
             <Route path="/history" element={<History />} />
+            <Route path="/statistics" element={<Statistics />} />
           </Routes>
         </main>
       </div>

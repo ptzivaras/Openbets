@@ -1,0 +1,172 @@
+.latest-draw-page {
+  padding: 2rem 1rem;
+}
+
+.latest-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 2rem;
+  flex-wrap: wrap;
+  gap: 1rem;
+}
+
+.latest-header h1 {
+  margin: 0;
+  color: var(--primary-color);
+  font-size: 2rem;
+}
+
+.latest-card {
+  background: white;
+  border-radius: 16px;
+  padding: 2rem;
+  box-shadow: 0 4px 16px rgba(0, 0, 0, 0.1);
+}
+
+.draw-info {
+  text-align: center;
+  margin-bottom: 2rem;
+  padding-bottom: 1.5rem;
+  border-bottom: 2px solid var(--border-color);
+}
+
+.draw-id {
+  font-size: 1.5rem;
+  font-weight: bold;
+  color: var(--primary-color);
+  margin-bottom: 0.5rem;
+}
+
+.draw-date {
+  color: var(--text-secondary);
+  font-size: 1.1rem;
+}
+
+.numbers-display {
+  display: flex;
+  flex-direction: column;
+  gap: 2rem;
+  margin-bottom: 2rem;
+}
+
+.main-numbers,
+.joker-display {
+  text-align: center;
+}
+
+.main-numbers h3,
+.joker-display h3 {
+  margin: 0 0 1rem 0;
+  color: var(--text-primary);
+  font-size: 1.25rem;
+}
+
+.numbers-row {
+  display: flex;
+  justify-content: center;
+  gap: 1rem;
+  flex-wrap: wrap;
+}
+
+.number-ball.large {
+  width: 70px;
+  height: 70px;
+  font-size: 1.75rem;
+  font-weight: bold;
+}
+
+.prizes-section {
+  margin-top: 2rem;
+  padding-top: 2rem;
+  border-top: 2px solid var(--border-color);
+}
+
+.prizes-section h3 {
+  margin: 0 0 1rem 0;
+  color: var(--text-primary);
+  font-size: 1.25rem;
+  text-align: center;
+}
+
+.prizes-table {
+  display: flex;
+  flex-direction: column;
+  gap: 0.75rem;
+}
+
+.prize-row {
+  display: grid;
+  grid-template-columns: 1fr 1fr 1fr;
+  gap: 1rem;
+  padding: 1rem;
+  background: var(--background-color);
+  border-radius: 8px;
+  align-items: center;
+}
+
+.prize-category {
+  font-weight: 600;
+  color: var(--text-primary);
+}
+
+.prize-winners {
+  color: var(--text-secondary);
+  text-align: center;
+}
+
+.prize-amount {
+  color: var(--primary-color);
+  font-weight: bold;
+  text-align: right;
+  font-size: 1.1rem;
+}
+
+.empty-state {
+  text-align: center;
+  padding: 3rem 1rem;
+}
+
+.empty-state p {
+  color: var(--text-secondary);
+  margin-bottom: 1.5rem;
+  font-size: 1.1rem;
+}
+
+.empty-state button {
+  padding: 1rem 2rem;
+  background: var(--primary-color);
+  color: white;
+  border: none;
+  border-radius: 8px;
+  font-size: 1.1rem;
+  cursor: pointer;
+  transition: all 0.3s ease;
+}
+
+.empty-state button:hover:not(:disabled) {
+  background: var(--primary-hover);
+  transform: translateY(-2px);
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.15);
+}
+
+@media (max-width: 768px) {
+  .latest-card {
+    padding: 1.5rem;
+  }
+
+  .number-ball.large {
+    width: 60px;
+    height: 60px;
+    font-size: 1.5rem;
+  }
+
+  .prize-row {
+    grid-template-columns: 1fr;
+    text-align: center;
+  }
+
+  .prize-amount {
+    text-align: center;
+  }
+}

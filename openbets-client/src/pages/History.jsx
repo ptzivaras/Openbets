@@ -1,36 +1,49 @@
 import { useState, useEffect } from 'react';
-import { winningColumnsApi } from '../services/api';
+import storageService from '../services/storageService';
+import opapService from '../services/opapService';
 import WinningNumbers from '../components/WinningNumbers';
 import Loading from '../components/Loading';
+import './History.css';
 
 function History() {
-  const [columns, setColumns] = useState([]);
+  const [draws, setDraws] = useState([]);
   const [loading, setLoading] = useState(true);
-  const [error, setError] = useState(null);
+  const [refreshing, setRefreshing] = useState(false);
   const [page, setPage] = useState(1);
-  const [totalCount, setTotalCount] = useState(0);
+  const [totalPages, setTotalPages] = useState(1);
   const pageSize = 10;
 
   useEffect(() => {
     loadHistory();
   }, [page]);
 
-  const loadHistory = async () => {
-    try {
-      setLoading(true);
-      setError(null);
-      const response = await winningColumnsApi.getAll(null, page, pageSize);
-      setColumns(response.data);
-      setTotalCount(parseInt(response.headers['x-total-count'] || '0'));
-    } catch (err) {
-      setError('Failed to load history');
-      console.error('Error loading history:', err);
-    } finally {
-      setLoading(false);
-    }
+  const loadHistory = () => {
+    setLoading(true);
+    const allDraws = storageService.getDraws();
+    const totalCount = allDraws.length;
+    setTotalPages(Math.ceil(totalCount / pageSize));
+    
+    const startIndex = (page - 1) * pageSize;
+    const endIndex = startIndex + pageSize;
+    setDraws(allDraws.slice(startIndex, endIndex));
+    setLoading(false);
   };
 
-  const totalPages = Math.ceil(totalCount / pageSize);
+  const refreshData = async () => {
+    setRefreshing(true);
+    try {
+      const latestDraws = await opapService.getLatestDraws(100);
+      const transformed = latestDraws.map(d => opapService.transformDraw(d));
+      storageService.addDraws(transformed);
+      setPage(1);
+      loadHistory();
+    } catch (err) {
+      console.error('Error refreshing data:', err);
+      alert('Σφάλμα κατά την ανανέωση δεδομένων');
+    } finally {
+      setRefreshing(false);
+    }
+  };
 
   if (loading && page === 1) {
     return (
@@ -40,14 +53,55 @@ function History() {
     );
   }
 
+  if (draws.length === 0 && page === 1) {
+    return (
+      <div className="container">
+        <h1>Ιστορικό Κληρώσεων</h1>
+        <div className="empty-state">
+          <p>Δεν υπάρχουν αποθηκευμένες κληρώσεις</p>
+          <button onClick={refreshData} disabled={refreshing}>
+            {refreshing ? 'Φόρτωση...' : 'Φόρτωση Δεδομένων από OPAP'}
+          </button>
+        </div>
+      </div>
+    );
+  }
+
   return (
     <div className="container">
-      <h1 style={{ marginBottom: '1.5rem' }}>Draw History</h1>
+      <div className="history-header">
+        <h1>Ιστορικό Κληρώσεων</h1>
+        <button onClick={refreshData} disabled={refreshing} className="refresh-btn">
+          {refreshing ? '⏳ Φόρτωση...' : '🔄 Ανανέωση'}
+        </button>
+      </div>
       
-      {error && <div className="error">{error}</div>}
-      
-      {columns.map(column => (
-        <WinningNumbers key={column.id} column={column} />
+      {draws.map((draw) => (
+        <div key={draw.drawId} className="draw-card">
+          <div className="draw-header">
+            <span className="draw-id">Κλήρωση #{draw.drawId}</span>
+            <span className="draw-date">
+              {new Date(draw.drawTime).toLocaleDateString('el-GR', {
+                year: 'numeric',
+                month: 'long',
+                day: 'numeric',
+                hour: '2-digit',
+                minute: '2-digit'
+              })}
+            </span>
+          </div>
+          <div className="numbers-container">
+            <div className="main-numbers">
+              {draw.numbers?.map((num, idx) => (
+                <div key={idx} className="number-ball main">{num}</div>
+              ))}
+            </div>
+            <div className="joker-number">
+              <div className="number-ball joker">{draw.joker}</div>
+              <span className="joker-label">Joker</span>
+            </div>
+          </div>
+        </div>
       ))}
 
       {totalPages > 1 && (
